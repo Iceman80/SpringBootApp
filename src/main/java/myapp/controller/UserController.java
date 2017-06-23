@@ -2,6 +2,7 @@ package myapp.controller;
 
 import myapp.model.User;
 import myapp.repository.UserRepository;
+import myapp.service.UserService;
 
 import java.util.List;
 
@@ -17,45 +18,44 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = ("*"))
 @RestController
 public class UserController {
-    private final static Logger log = LogManager.getLogger(UserController.class);
+    private final Logger log = LogManager.getLogger(UserController.class);
 
     @Autowired
-    private UserRepository repository;
+    private UserService service;
 
     @RequestMapping("/save")
     public String addedUser() {
-        repository.save(new User("Serhii", "Yakovlev", 47, "066-174-82-91"));
-        repository.save(new User("Alex", "Ivanov", 27, "066-100-82-93"));
-        log.info("Persist new string");
+        service.addedUser();
         return "Ok";
     }
 
-    @RequestMapping(value = "/findall", method = RequestMethod.GET)
-    public String findAll() {
-        String result = "<html>";
-        Iterable<User> users = repository.findAll();
-        for (User user : users) {
-            result += "<div>" + user.toString() + "</div>";
-        }
-        log.info("Find all users - " + users);
-        return result + "</html>";
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public List<User> findAll() {
+        return service.findAll();
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public User findOne(@PathVariable("id") int id) {
-        User user = repository.findOne(id);
-        log.info("Find user - " + user + ", by id - " + id);
-        return user;
+        return service.findOne(id);
+    }
+
+    @RequestMapping(value = "/status/{status}", method = RequestMethod.GET)
+    public List<User> findByStatus(@PathVariable("status") String status) {
+        return service.findByStatus(status);
     }
 
     @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
-    public String findByAge(@PathVariable("age") int age) {
-        Iterable<User> users = repository.findByAgeAfter(age);
-        String result = "<html>";
-        for (User user : users) {
-            result += "<div>" + user.toString() + "</div>";
-        }
-        log.info("Find users - " + users + ", by age after - " + age);
-        return result;
+    public List<User> findByAge(@PathVariable("age") int age) {
+        return service.findByAge(age);
+    }
+
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    public void deleteUserById(@PathVariable("id") int id) {
+        service.deleteUserById(id);
+    }
+
+    @RequestMapping(value = "/user/{id}/{status}", method = RequestMethod.POST)
+    public String changeStatus(@PathVariable("id") int id,@PathVariable("status") String status) {
+        return service.changeStatus(id,status);
     }
 }
