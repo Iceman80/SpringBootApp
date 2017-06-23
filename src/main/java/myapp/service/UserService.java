@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public void addedUser() {
-        repository.save(new User("Serhii", "Yakovlev", 47, "066-174-82-91"));
+        repository.save(new User("Serhii", "Yakovlev", 47, "066-100-82-92"));
         repository.save(new User("Alex", "Ivanov", 27, "066-100-82-93"));
         log.info("Persist new users");
     }
