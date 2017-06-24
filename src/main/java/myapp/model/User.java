@@ -23,6 +23,7 @@ public class User implements Serializable {
     @Size(min = 6, max = 14)
     private String phone;
     private String status;
+    private String data;
 
     public User() {
     }
@@ -78,6 +79,14 @@ public class User implements Serializable {
         this.status = status;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -87,6 +96,7 @@ public class User implements Serializable {
                 ", age=" + age +
                 ", phone='" + phone + '\'' +
                 ", status='" + status + '\'' +
+                ", data='" + data + '\'' +
                 '}';
     }
 }
