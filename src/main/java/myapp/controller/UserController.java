@@ -1,5 +1,6 @@
 package myapp.controller;
 
+import myapp.model.Status;
 import myapp.model.User;
 import myapp.service.UserService;
 
@@ -9,6 +10,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/status/{status}", method = RequestMethod.GET)
-    public List<User> findByStatus(@PathVariable("status") String status) {
+    public List<User> findByStatus(@PathVariable("status") Status status) {
         return service.findByStatus(status);
     }
 
@@ -51,12 +54,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public void deleteUserById(@PathVariable("id") int id) {
+    public ResponseEntity<?> deleteUserById(@PathVariable("id") int id) {
         service.deleteUserById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/{id}/{status}", method = RequestMethod.POST)
-    public String changeStatus(@PathVariable("id") int id,@PathVariable("status") String status) {
+    public String changeStatus(@PathVariable("id") int id,@PathVariable("status") Status status) {
         return service.changeStatus(id,status);
     }
 }

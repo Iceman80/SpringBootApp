@@ -1,5 +1,6 @@
 package myapp.service.impl;
 
+import myapp.model.Status;
 import myapp.model.User;
 import myapp.repository.UserRepository;
 import myapp.service.UserHelper;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
         log.info("Persist new users");
     }
 
-    public String changeStatus(int id, String status) {
+    public String changeStatus(int id, Status status) {
         User user = repository.findOne(id);
         if (user != null) {
             user.setStatus(status);
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public List<User> findByStatus(String status){
+    public List<User> findByStatus(Status status){
         log.info("Found users by status - "+ status);
         return repository.findByStatus(status);
     }

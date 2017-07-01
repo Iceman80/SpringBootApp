@@ -1,6 +1,7 @@
 package myapp.service;
 
 
+import myapp.model.Status;
 import myapp.model.User;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
 
     void addedUser();
 
-    String changeStatus(int id, String status);
+    String changeStatus(int id, Status status);
 
-    List<User> findByStatus(String status);
+    List<User> findByStatus(Status status);
 }

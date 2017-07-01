@@ -22,7 +22,7 @@ public class User implements Serializable {
     private int age;
     @Size(min = 6, max = 14)
     private String phone;
-    private String status;
+    private Status status = Status.New;
     private String data;
 
     public User() {
@@ -71,11 +71,11 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

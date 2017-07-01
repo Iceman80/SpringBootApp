@@ -1,6 +1,7 @@
 package myapp.repository;
 
 
+import myapp.model.Status;
 import myapp.model.User;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     List<User> findByAgeAfter(int age);
 
-    List<User> findByStatus(String status);
+    List<User> findByStatus(Status status);
 }
