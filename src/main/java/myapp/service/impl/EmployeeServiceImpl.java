@@ -1,9 +1,11 @@
 package myapp.service.impl;
 
+import myapp.model.Department;
 import myapp.model.Status;
 import myapp.model.User;
+import myapp.repository.DepartmentRepository;
 import myapp.repository.UserRepository;
-import myapp.service.UserHelper;
+import myapp.service.Helper;
 import myapp.service.UserService;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class EmployeeServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     public List<User> findAll() {
         Iterable<User> users = repository.findAll();
@@ -44,7 +49,7 @@ public class EmployeeServiceImpl implements UserService {
     }
 
     public void addedUser() {
-        repository.save(UserHelper.getUserList());
+        repository.save(Helper.getUserList());
         log.info("Persist new users");
     }
 
@@ -52,7 +57,7 @@ public class EmployeeServiceImpl implements UserService {
         User user = repository.findOne(id);
         if (user != null) {
             user.setStatus(status);
-            user.setData(UserHelper.getCurrentData());
+            user.setData(Helper.getCurrentData());
             repository.save(user);
             log.info("employee by id -" + id + "change status");
             return "Ok";
@@ -66,5 +71,25 @@ public class EmployeeServiceImpl implements UserService {
     public List<User> findByStatus(Status status){
         log.info("Found employees by status - "+ status);
         return repository.findByStatus(status);
+    }
+
+    public String addDepartment(int id, String departmentName) {
+        User user = repository.findOne(id);
+        if (user != null) {
+            Department department = departmentRepository.findByDepartmentName(departmentName);
+
+//            department.getUsers().add(user);
+//            departmentRepository.save(department);
+
+            user.setDepartment(department);
+            user.setData(Helper.getCurrentData());
+            repository.save(user);
+            log.info("employee by id -" + id + "added department");
+            return "Ok";
+        } else {
+            String message = "Error employee by id - " + id + " not found";
+            log.info(message);
+            return message;
+        }
     }
 }

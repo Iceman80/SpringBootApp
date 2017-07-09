@@ -1,9 +1,10 @@
 package myapp.service.impl;
 
+import myapp.model.Department;
 import myapp.model.Status;
 import myapp.model.User;
 import myapp.repository.UserRepository;
-import myapp.service.UserHelper;
+import myapp.service.Helper;
 import myapp.service.UserService;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void addedUser() {
-        repository.save(UserHelper.getUserList());
+        repository.save(Helper.getUserList());
         log.info("Persist new users");
     }
 
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
         User user = repository.findOne(id);
         if (user != null) {
             user.setStatus(status);
-            user.setData(UserHelper.getCurrentData());
+            user.setData(Helper.getCurrentData());
             repository.save(user);
             log.info("User by id -" + id + "change status");
             return "Ok";
@@ -66,5 +67,10 @@ public class UserServiceImpl implements UserService {
     public List<User> findByStatus(Status status){
         log.info("Found users by status - "+ status);
         return repository.findByStatus(status);
+    }
+
+    @Override
+    public String addDepartment(int id, String department) {
+        return null;
     }
 }

@@ -2,12 +2,18 @@ package myapp.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "employee")
@@ -25,7 +31,20 @@ public class User implements Serializable {
     private Status status = Status.New;
     private String data;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "idDepartment", nullable = true)
+    private Department department;
+
     public User() {
+    }
+
+    public User(String firstName, String lastName, int age, String phone, Department department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.phone = phone;
+        this.department = department;
     }
 
     public User(String firstName, String lastName, int age, String phone) {
@@ -87,6 +106,14 @@ public class User implements Serializable {
         this.data = data;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -95,8 +122,9 @@ public class User implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", phone='" + phone + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 ", data='" + data + '\'' +
+                ", department=" + department +
                 '}';
     }
 }

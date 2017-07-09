@@ -1,6 +1,7 @@
 package myapp.service;
 
 
+import myapp.model.Department;
 import myapp.model.Status;
 import myapp.model.User;
 
@@ -20,4 +21,6 @@ public interface UserService {
     String changeStatus(int id, Status status);
 
     List<User> findByStatus(Status status);
+
+    public String addDepartment(int id, String department);
 }

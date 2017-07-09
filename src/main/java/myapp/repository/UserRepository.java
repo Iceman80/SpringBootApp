@@ -1,6 +1,7 @@
 package myapp.repository;
 
 
+import myapp.model.Department;
 import myapp.model.Status;
 import myapp.model.User;
 
