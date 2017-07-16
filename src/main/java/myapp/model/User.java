@@ -1,6 +1,8 @@
 package myapp.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -33,8 +37,14 @@ public class User implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "idDepartment", nullable = true)
     private Department department;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "user_task",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
+    private Set<Task> tasks = new HashSet<>();
 
     public User() {
     }
@@ -114,6 +124,14 @@ public class User implements Serializable {
         this.department = department;
     }
 
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -125,6 +143,7 @@ public class User implements Serializable {
                 ", status=" + status +
                 ", data='" + data + '\'' +
                 ", department=" + department +
+                ", tasks=" + tasks +
                 '}';
     }
 }

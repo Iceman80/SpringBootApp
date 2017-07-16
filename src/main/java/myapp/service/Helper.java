@@ -2,6 +2,7 @@ package myapp.service;
 
 
 import myapp.model.Department;
+import myapp.model.Task;
 import myapp.model.User;
 
 import java.text.SimpleDateFormat;
@@ -14,8 +15,9 @@ public class Helper {
 
     public static List<User> getUserList() {
         List<User> users = new ArrayList<>();
-        users.add(new User("Serhii", "Yakovlev", 47, "066-100-82-92"));
+        users.add(new User("Serhii", "Petrov", 47, "066-100-82-92"));
         users.add(new User("Alex", "Ivanov", 27, "066-100-82-93"));
+        users.add(new User("Petro", "Petrov", 22, "067-111-82-94"));
         return users;
     }
 
@@ -31,5 +33,13 @@ public class Helper {
         departments.add(new Department("Security"));
         departments.add(new Department("Financial"));
         return departments;
+    }
+
+    public static List<Task> getTasks(){
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(new Task("Fix Bug"));
+        tasks.add(new Task("Prepare report"));
+        tasks.add(new Task("Hard work"));
+        return tasks;
     }
 }

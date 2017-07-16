@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         log.info("Delete user by id - " + id);
     }
 
-    public void addedUser() {
+    public void addedUserAndDepartment() {
         repository.save(Helper.getUserList());
         log.info("Persist new users");
     }

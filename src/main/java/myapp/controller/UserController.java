@@ -1,16 +1,14 @@
 package myapp.controller;
 
-import myapp.model.Department;
 import myapp.model.Status;
+import myapp.model.Task;
 import myapp.model.User;
-import myapp.service.DepartmentService;
 import myapp.service.UserService;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -23,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = ("*"))
 @RestController
+@RequestMapping(value = "/user")
 public class UserController implements Serializable {
-    private final Logger log = LogManager.getLogger(UserController.class);
 
     @Autowired
     @Qualifier("employeeService")
@@ -33,16 +31,16 @@ public class UserController implements Serializable {
 
     @RequestMapping(value = "/save", method = RequestMethod.GET)
     public String addedUser() {
-        service.addedUser();
+        service.addedUserAndDepartment();
         return "Ok";
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> findAll() {
         return service.findAll();
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public User findOne(@PathVariable("id") int id) {
         return service.findOne(id);
     }
@@ -57,24 +55,29 @@ public class UserController implements Serializable {
         return service.findByAge(age);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUserById(@PathVariable("id") int id) {
         service.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{id}/{status}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/{status}", method = RequestMethod.POST)
     public String changeStatus(@PathVariable("id") int id, @PathVariable("status") Status status) {
         return service.changeStatus(id, status);
     }
 
-    @RequestMapping(value = "/user/{id}/department/{name}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/department/{name}", method = RequestMethod.PUT)
     public String addDepartmentByName(@PathVariable("id") int id, @PathVariable("name") String departmentName) {
         return service.addDepartment(id, departmentName);
     }
 
-    @RequestMapping(value = "/user/dep/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/dep/{id}", method = RequestMethod.GET)
     public String showDepartment(@PathVariable("id") int id) {
         return service.findOne(id).getDepartment().getDepartmentName();
+    }
+
+    @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
+    public Set<Task> findOneAndTask(@PathVariable("id") int id) {
+        return service.findOne(id).getTasks();
     }
 }

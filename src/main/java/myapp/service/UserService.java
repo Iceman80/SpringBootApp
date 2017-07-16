@@ -16,7 +16,7 @@ public interface UserService {
 
     void deleteUserById(int id);
 
-    void addedUser();
+    void addedUserAndDepartment();
 
     String changeStatus(int id, Status status);
 

@@ -4,6 +4,7 @@ import myapp.model.Department;
 import myapp.model.Status;
 import myapp.model.User;
 import myapp.repository.DepartmentRepository;
+import myapp.repository.TaskRepository;
 import myapp.repository.UserRepository;
 import myapp.service.Helper;
 import myapp.service.UserService;
@@ -24,6 +25,9 @@ public class EmployeeServiceImpl implements UserService {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     public List<User> findAll() {
         Iterable<User> users = repository.findAll();
@@ -48,9 +52,11 @@ public class EmployeeServiceImpl implements UserService {
         log.info("Delete employee by id - " + id);
     }
 
-    public void addedUser() {
+    public void addedUserAndDepartment() {
         repository.save(Helper.getUserList());
-        log.info("Persist new users");
+        departmentRepository.save(Helper.getDepartment());
+        taskRepository.save(Helper.getTasks());
+        log.info("Persist users, departments and tasks");
     }
 
     public String changeStatus(int id, Status status) {
@@ -77,10 +83,6 @@ public class EmployeeServiceImpl implements UserService {
         User user = repository.findOne(id);
         if (user != null) {
             Department department = departmentRepository.findByDepartmentName(departmentName);
-
-//            department.getUsers().add(user);
-//            departmentRepository.save(department);
-
             user.setDepartment(department);
             user.setData(Helper.getCurrentData());
             repository.save(user);
