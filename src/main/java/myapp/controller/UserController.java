@@ -28,13 +28,6 @@ public class UserController implements Serializable {
     @Qualifier("employeeService")
     private UserService service;
 
-
-    @RequestMapping(value = "/save", method = RequestMethod.GET)
-    public String addedUser() {
-        service.addedUserAndDepartment();
-        return "Ok";
-    }
-
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<User> findAll() {
         return service.findAll();
