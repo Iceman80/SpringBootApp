@@ -9,6 +9,8 @@ services:
     depends_on:
     - mypostgres
   mypostgres:
+    volumes:
+      - ${PWD}/postgres-data:/var/lib/postgresql/data
     image: postgres
     ports:
      - "5432:5432"

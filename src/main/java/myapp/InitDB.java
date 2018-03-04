@@ -20,11 +20,13 @@ public class InitDB {
     @Qualifier("employeeService")
     private UserService service;
 
-    @PostConstruct
-    public void initDB() {
-        if (service.findAll().isEmpty()) {
-            service.addedUserAndDepartment();
-            log.info("Save Users, Departments and Tasks");
-        }
-    }
+//  need for first run for initial DB after need commit
+
+//    @PostConstruct
+//    public void initDB() {
+//        if (service.findAll().isEmpty()) {
+//            service.addedUserAndDepartment();
+//            log.info("Save Users, Departments and Tasks");
+//        }
+//    }
 }
